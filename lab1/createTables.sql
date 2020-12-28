@@ -1,0 +1,53 @@
+CREATE TABLE Museums
+(
+	MuseumID SERIAL PRIMARY KEY,
+	Name VARCHAR(50) NOT NULL,
+	City VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Exhibitions
+(
+	ExhibitionID SERIAL PRIMARY KEY,
+	Name VARCHAR(50) NOT NULL,
+	City VARCHAR(50) NOT NULL,
+	NumberOfExhibit INTEGER CHECK(NumberOfExhibit > 0),
+	Museum INTEGER,
+
+	FOREIGN KEY (Museum) REFERENCES Museums(MuseumID)
+);
+
+CREATE TABLE Artists
+(
+	ArtistID SERIAL PRIMARY KEY,
+	Name VARCHAR(50) NOT NULL,
+	SurName VARCHAR(50) NOT NULL,
+	City VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE ArtObjects
+(
+	ObjectID SERIAL PRIMARY KEY,
+	Name VARCHAR(50) NOT NULL,
+	Artist INTEGER,
+	Museum INTEGER,
+
+
+	FOREIGN KEY (Museum) REFERENCES Museums(MuseumID),
+	FOREIGN KEY (Artist) REFERENCES Artists(ArtistID)
+); 
+
+CREATE TABLE Contracts
+(
+	ContractID SERIAL PRIMARY KEY,
+	MuseumOwner INTEGER NOT NULL,
+	MuseumClient INTEGER NOT NULL,
+	Exhibition INTEGER NOT NULL,
+	DateIN DATE,
+	DateOUT DATE,
+	ArtObject INTEGER,
+
+	FOREIGN KEY (MuseumOwner) REFERENCES Museums(MuseumID),
+	FOREIGN KEY (MuseumClient) REFERENCES Museums(MuseumID),
+	FOREIGN KEY (Exhibition) REFERENCES Exhibitions(ExhibitionID),
+	FOREIGN KEY (ArtObject) REFERENCES ArtObjects(ObjectID)
+);
