@@ -2,7 +2,7 @@
 --select * from exhibitions;
 
 CREATE FUNCTION getMaxExhbitNumber() RETURNS integer AS '
-	SELECT MAX(NumberOFExibit) FROM exhibitions;
+	SELECT MAX(NumberOFExhibit) FROM exhibitions;
 ' LANGUAGE SQL;
 
 
