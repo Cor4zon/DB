@@ -15,3 +15,14 @@
  
  
  -[Журналирование в sql server](https://github.com/Panda-Lewandowski/DataBase/wiki/38.-Журналирование-в-SQL-Server)
+
+
+4. **Сценарии и пакеты**
+
+**Сценарий** – набор операторов SQL, сохраненный в файле.
+
+-[Пакеты](https://oracleplsql.ru/packages-oracle-plsql.html#def)
+
+
+-[уровени изолированности транзаций](https://habr.com/ru/post/469415/)
+
