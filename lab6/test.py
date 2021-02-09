@@ -121,13 +121,9 @@ def menu(cursor, conn):
             print("Incorrect action, try again")
 
 
+conn = psycopg2.connect("dbname=bmstu user=postgres password=md5a77f34aa7b2d4421b929d1ec5229970a")
 
-
-conn = psycopg2.connect(dbname='bmstu', user='postgres',
-                        password='s1s2s3s4', host='localhost')
 cursor = conn.cursor()
-
 menu(cursor, conn)
-
 cursor.close()
 conn.close()
