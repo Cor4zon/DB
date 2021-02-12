@@ -1,0 +1,38 @@
+
+{
+	"exhibitionID": 1,
+	"title": "I am Andy Warhal",
+	"attendance": {
+					"august": 1000,
+					"september": 500,
+					"october": 7000,
+					"november": 5050,
+					"december": 7000
+				  }
+}
+
+
+
+{
+	"exhibitionID": 2,
+	"title": "Dali & Piccasso",
+	"attendance": {
+					"august": 13040,
+					"september": 44500,
+					"october": 237000,
+					"november": 54050,
+					"december": 73000
+				  }
+}
+
+{
+	"exhibitionID": 3,
+	"title": "Bosch",
+	"attendance": {
+					"august": 900,
+					"september": 54500,
+					"october": 2000,
+					"november": 550,
+					"december": 3000
+				  }
+}
