@@ -7,14 +7,31 @@ def scalarSQLrequest(cursor, objectID):
     print(cursor.fetchone())
 
 
+# Функция выводит название музея, арт-объект и художника
 def multiplesJoinsSQLrequest(cursor):
-    pass
+    cursor.execute(
+			"SELECT ao.Name AS ObjectName, m.Name AS MuseumName, ar.Name AS ArtistName " +
+			"FROM ArtObjects AS ao JOIN Museums AS m " +
+ 			"ON ao.Museum = m.MuseumID " +
+			"JOIN Artists AS ar " +
+			"ON ao.Artist = ar.ArtistID "
+		  )
+    for row in cursor.fetchall():
+        print(row)
 
 
 def cteSQLrequest(cursor):
-    pass
+    cursor.execute(
+			"WITH ContractCTE " +
+			"AS ( SELECT ContractID, MuseumOwner, MuseumClient, DateOUT FROM Contracts ) " +
+			"SELECT  ContractID, MuseumOwner, MuseumClient, DateOUT, min(DateOUT) OVER (PARTITION BY MuseumClient) " +
+			"FROM ContractCTE;"
+ 		  )
+    for row in cursor.fetchall():
+        print(row)
 
 
+# Функция выводит названия публичных таблиц
 def metadataSQLrequest(cursor):
     cursor.execute("SELECT tablename FROM pg_tables " +
                    "WHERE schemaname = %(type)s", {"type":"public"}) 
@@ -23,7 +40,7 @@ def metadataSQLrequest(cursor):
         print(row[0])
 
 
-
+# Функция выводит максимальное количество экспонатов на выставках
 def callSQLscalarFunction(cursor):
     cursor.execute("select * from getMaxExhibitNumber()")
     print("Максимальное количество экспонатов:")
@@ -45,22 +62,26 @@ def callSQLScalarProcedure(cursor, conn):
     print("exhibition was succeesfully update")
 
 
+# Функция выводит имя текущей базы данных
 def systemSQLfunction(cursor):
     cursor.execute("SELECT current_database()")
     print(cursor.fetchall()[0][0])
 
 
+# Функция создает таблицу для хранения информации об Арт-объектах
 def createSQLtable(cursor, conn):
     cursor.execute("CREATE TABLE InfoAboutArtObject" +
                     " (ObjectID INT, dateOfcreation DATE, country TEXT)")
     conn.commit()
 
 
+# Функция удаляет таблицу InfoAboutArtObject
 def dropSQLtable(cursor, conn):
     cursor.execute("DROP TABLE InfoAboutArtObject")
     conn.commit()
 
 
+# Фунция для добавления информации в таблицу InfoAboutArtObject
 def fillSQLtable(cursor, conn, objectID, dateOfcreation, country):
     cursor.execute("INSERT INTO InfoAboutArtObject (objectID, dateOfcreation, country)" +
                     " VALUES (%s, %s, %s)", (objectID, dateOfcreation, country))
@@ -123,7 +144,7 @@ def menu(cursor, conn):
 
 
 
-conn = psycopg2.connect(dbname='bmstu', user='postgres',
+conn = psycopg2.connect(dbname='MuseumInfo', user='postgres',
                         password='s1s2s3s4', host='localhost')
 cursor = conn.cursor()
 
