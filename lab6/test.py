@@ -146,9 +146,8 @@ def menu(cursor, conn):
 
 conn = psycopg2.connect(dbname='MuseumInfo', user='postgres',
                         password='s1s2s3s4', host='localhost')
+
 cursor = conn.cursor()
-
 menu(cursor, conn)
-
 cursor.close()
 conn.close()
