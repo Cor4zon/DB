@@ -59,7 +59,7 @@ SELECT * FROM ArtObjectPricelist;
 
 CREATE TABLE IF NOT EXISTS ExhibitionsAttendance
 (
-	Data JSON
+	Data JSONB
 );
 
 
@@ -70,7 +70,7 @@ INSERT INTO ExhibitionsAttendance VALUES
 ('{"exhibitionID": 3,"title": "Bosch","attendance": {"august": 900,"september": 54500,"october": 2000,"november": 550,"december": 3000}}')
 
 select * from ExhibitionsAttendance;
--- 1) Извлечь JSON флагмент из JSON документа
+-- 1) Извлечь JSON фрагмент из JSON документа
 SELECT Data->'title' AS title FROM ExhibitionsAttendance;
 
 -- 2) Извлечь значение конкретного узла или атрибута JSON документа
@@ -95,7 +95,7 @@ SELECT * FROM checkKeyExist(('{"exhibitionID": 1, "title": "I am Andy Warhal", "
 -- 4) Изменить JSON документ
 UPDATE ExhibitionsAttendance
 SET data = data || '{"status": "Close"}'::JSONB
-WHERE (data->'attendance'->'december')::TEXT::INT < 5000
+WHERE (data->'attendance'->>'december')::INT < 5000
 
 -- 5) Разделить JSON документ на несколько строк по узлам 
 

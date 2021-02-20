@@ -70,21 +70,44 @@ def systemSQLfunction(cursor):
 
 # Функция создает таблицу для хранения информации об Арт-объектах
 def createSQLtable(cursor, conn):
-    cursor.execute("CREATE TABLE InfoAboutArtObject" +
-                    " (ObjectID INT, dateOfcreation DATE, country TEXT)")
+    try:
+        cursor.execute("CREATE TABLE InfoAboutArtObject" +
+                        " (ObjectID INT, dateOfcreation DATE, country TEXT)")
+    except:
+        print("Ошибка: некорректный запрос")
+        conn.rollback()
+        return
+
+    # Фиксируем изменения.
+    # То есть посылаем команду в бд.
+    # метод commit() помогает нам применить изменения,
+    # которые мы внесли в бд, и эти изменения не могут
+    # быть отменены, если соmmit выполнится успешно.
     conn.commit()
 
 
 # Функция удаляет таблицу InfoAboutArtObject
 def dropSQLtable(cursor, conn):
-    cursor.execute("DROP TABLE InfoAboutArtObject")
-    conn.commit()
+    try:
+        cursor.execute("DROP TABLE InfoAboutArtObject")
+    except:   
+        print("Ошибка: некорректный запрос")
+        conn.rollback()
+        return  
+    finally:
+        conn.commit()
 
 
 # Фунция для добавления информации в таблицу InfoAboutArtObject
 def fillSQLtable(cursor, conn, objectID, dateOfcreation, country):
-    cursor.execute("INSERT INTO InfoAboutArtObject (objectID, dateOfcreation, country)" +
+    try:
+        cursor.execute("INSERT INTO InfoAboutArtObject (objectID, dateOfcreation, country)" +
                     " VALUES (%s, %s, %s)", (objectID, dateOfcreation, country))
+    except:
+        print("Ошибка: некорректный запрос")
+        conn.rollback()
+        return 
+
     conn.commit()
 
 
@@ -143,12 +166,16 @@ def menu(cursor, conn):
 
 
 
+try:
+    conn = psycopg2.connect(dbname='MuseumInfo', user='postgres',
+                            password='s1s2s3s4', host='localhost')
 
-conn = psycopg2.connect(dbname='MuseumInfo', user='postgres',
-                        password='s1s2s3s4', host='localhost')
-cursor = conn.cursor()
+    cursor = conn.cursor()
+    menu(cursor, conn)
+    cursor.close()
+    conn.close()
 
-menu(cursor, conn)
+except:
+    print("Ошибка при подключении к базе данных")
 
-cursor.close()
-conn.close()
+

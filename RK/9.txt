@@ -1,0 +1,20 @@
+9 приведение и преобразование типов
+план:
+
+что зачем?
+явное и неявное 
+
+анализатор выражения postgres
+
+
+факторы приведения (в каких ситуациях это происходит неявно?)
+
+unknown 
+
+create cust
+
+cust 
+
+select cust(5 as float8);
+select cust(4 as float8);
+select cust(3 as float8);
